@@ -27,7 +27,8 @@ pipeline {
         stage('Push Docker Images') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                }
+                sh "docker push ${DOCKER_NAMESPACE}/heart-backend"
+                sh "docker push ${DOCKER_NAMESPACE}/heart-frontend"
             }
         }
 
