@@ -29,11 +29,14 @@ pipeline {
         stage('Push Docker Images') {
             steps {
                 script {
-                    sh """
-                        echo "${DOCKERHUB_CREDENTIALS_PSW}" | docker login -u "${DOCKERHUB_CREDENTIALS_USR}" --password-stdin
-                        docker push ${DOCKER_NAMESPACE}/heart-backend
-                        docker push ${DOCKER_NAMESPACE}/heart-frontend
-                    """
+                    withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDENTIALS', 
+                                 usernameVariable: 'DOCKERHUB_USERNAME', 
+                                 passwordVariable: 'DOCKERHUB_CREDENTIALS_PSW')]) {
+    				 sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_USERNAME --password-stdin"
+    				 sh "docker push yahyaguizani/k8s/heart-backend"
+    				 sh "docker push yahyaguizani/k8s/heart-frontend"
+}
+
                 }
             }
         }
