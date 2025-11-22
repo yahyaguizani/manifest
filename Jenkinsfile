@@ -26,14 +26,7 @@ pipeline {
 
         stage('Push Docker Images') {
             steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-id', 
-                                     usernameVariable: 'DOCKERHUB_USERNAME', 
-                                     passwordVariable: 'DOCKERHUB_TOKEN')]) {
-                         sh "echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin"
-                         sh "docker push ${DOCKER_NAMESPACE}/heart-backend"
-                         sh "docker push ${DOCKER_NAMESPACE}/heart-frontend"
-                    }
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                 }
             }
         }
